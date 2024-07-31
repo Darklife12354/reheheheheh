@@ -13,20 +13,19 @@
     <h1>PC Information</h1>
     <div class="info" id="battery">Battery: Loading...</div>
     <div class="info" id="location">Location: Loading...</div>
-    <div class="info" id="gpu">GPU: Not available</div>
-    <div class="info" id="cpu">CPU: Not available</div>
-    <div class="info" id="ram">RAM: Not available</div>
+    <div class="info" id="ip">IP Address: Loading...</div>
     <div class="info" id="browser">Browser: Loading...</div>
+    <div class="info" id="userAgent">User Agent: Loading...</div>
+    <div class="info" id="platform">Platform: Loading...</div>
+    <div class="info" id="language">Language: Loading...</div>
+    <div class="info" id="screen">Screen Size: Loading...</div>
+    <div class="info" id="timezone">Timezone: Loading...</div>
     <script>
         // Battery percentage
         navigator.getBattery().then(battery => {
             const batteryInfo = document.getElementById('battery');
             batteryInfo.textContent = `Battery: ${Math.round(battery.level * 100)}%`;
         });
-
-        // Browser version
-        const browserInfo = document.getElementById('browser');
-        browserInfo.textContent = `Browser: ${navigator.userAgent}`;
 
         // Location (requires user permission)
         navigator.geolocation.getCurrentPosition(position => {
@@ -37,10 +36,37 @@
             locationInfo.textContent = `Location: Permission denied or unavailable`;
         });
 
-        // GPU, CPU, RAM - not directly available via JS; placeholders here
-        document.getElementById('gpu').textContent = 'GPU: Not available';
-        document.getElementById('cpu').textContent = 'CPU: Not available';
-        document.getElementById('ram').textContent = 'RAM: Not available';
+        // Browser Information
+        const browserInfo = document.getElementById('browser');
+        browserInfo.textContent = `Browser: ${navigator.appVersion}`;
+
+        // User Agent
+        const userAgentInfo = document.getElementById('userAgent');
+        userAgentInfo.textContent = `User Agent: ${navigator.userAgent}`;
+
+        // Platform
+        const platformInfo = document.getElementById('platform');
+        platformInfo.textContent = `Platform: ${navigator.platform}`;
+
+        // Language
+        const languageInfo = document.getElementById('language');
+        languageInfo.textContent = `Language: ${navigator.language}`;
+
+        // Screen Size
+        const screenInfo = document.getElementById('screen');
+        screenInfo.textContent = `Screen Size: ${window.screen.width}x${window.screen.height}`;
+
+        // Timezone
+        const timezoneInfo = document.getElementById('timezone');
+        timezoneInfo.textContent = `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+
+        // IP Address
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipInfo = document.getElementById('ip');
+                ipInfo.textContent = `IP Address: ${data.ip}`;
+            });
     </script>
 </body>
 </html>
