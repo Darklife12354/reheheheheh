@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Information</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .info { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>PC Information</h1>
+    <div class="info" id="battery">Battery: Loading...</div>
+    <div class="info" id="location">Location: Loading...</div>
+    <div class="info" id="gpu">GPU: Not available</div>
+    <div class="info" id="cpu">CPU: Not available</div>
+    <div class="info" id="ram">RAM: Not available</div>
+    <div class="info" id="browser">Browser: Loading...</div>
+    <script>
+        // Battery percentage
+        navigator.getBattery().then(battery => {
+            const batteryInfo = document.getElementById('battery');
+            batteryInfo.textContent = `Battery: ${Math.round(battery.level * 100)}%`;
+        });
 
+        // Browser version
+        const browserInfo = document.getElementById('browser');
+        browserInfo.textContent = `Browser: ${navigator.userAgent}`;
+
+        // Location (requires user permission)
+        navigator.geolocation.getCurrentPosition(position => {
+            const locationInfo = document.getElementById('location');
+            locationInfo.textContent = `Location: Lat ${position.coords.latitude}, Long ${position.coords.longitude}`;
+        }, error => {
+            const locationInfo = document.getElementById('location');
+            locationInfo.textContent = `Location: Permission denied or unavailable`;
+        });
+
+        // GPU, CPU, RAM - not directly available via JS; placeholders here
+        document.getElementById('gpu').textContent = 'GPU: Not available';
+        document.getElementById('cpu').textContent = 'CPU: Not available';
+        document.getElementById('ram').textContent = 'RAM: Not available';
+    </script>
+</body>
+</html>
